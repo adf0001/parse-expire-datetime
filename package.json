@@ -1,0 +1,27 @@
+{
+  "name": "parse-expire-datetime",
+  "version": "1.0.0",
+  "description": "parse string for expire datetime",
+  "main": "parse-expire-datetime.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "parse",
+    "expire",
+    "datetime"
+  ],
+  "author": "fwg",
+  "license": "ISC",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adf0001/parse-expire-datetime.git"
+  },
+  "bugs": {
+    "url": "https://github.com/adf0001/parse-expire-datetime/issues"
+  },
+  "homepage": "https://github.com/adf0001/parse-expire-datetime#readme"
+}
