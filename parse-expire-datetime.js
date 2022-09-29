@@ -95,7 +95,7 @@ function parseExpireDatetime(str, options) {
 			0, 0, 0, -1,		//00:00:00.000 - 1 = 23:59:59.999
 			options?.timezoneOffset);
 	}
-	// dd | dd? hh:(mm(:ss(.sss)?)?)?, as now + ( dd (hh|00):(mm|00):(ss|00).(sss|000) ), then set hh/mm/ss/sss to 23/59/59/999 if they are omitted.
+	// dd | dd hh | dd? hh:(mm(:ss(.sss)?)?)?, as now + ( dd (hh|00):(mm|00):(ss|00).(sss|000) ), then set hh/mm/ss/sss to 23/59/59/999 if they are omitted.
 	else if (mr = str.match(/^(\d+(?:\s+|$))?(\d+(?:\:|$)?(\d+(\:\d+(\.\d+)?)?)?)?$/)) {
 		return offsetExpireDate(options?.now?.getTime(),
 			mr[1], mr[2], mr[3], mr[4]?.slice(1), mr[5]?.slice(1),

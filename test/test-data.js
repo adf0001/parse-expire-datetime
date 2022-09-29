@@ -74,7 +74,7 @@ module.exports = {
 			parseExpireDatetime("2001-2", -480).getTime() ===		//UTC+0
 			parseExpireDatetime("2001-2-28 15:59:59.999", 0).getTime() &&	//UTC+8
 
-			// DDD( hh(:mm(:ss(.sss)?)?)?)?, as now + ( DDD (hh|00):(mm|00):(ss|00).(sss|000) ), then set hh/mm/ss/sss to 23/59/59/999 if they are omitted.
+			// dd | dd hh | dd? hh:(mm(:ss(.sss)?)?)?, as now + ( dd (hh|00):(mm|00):(ss|00).(sss|000) ), then set hh/mm/ss/sss to 23/59/59/999 if they are omitted.
 			cmp("1 3:4:5.6", "2022-01-02 13:24:35.046", { now: dtNow }) &&
 			cmp("1 3:4:5", "2022-01-02 13:24:35.999", dtNow) &&
 			cmp("1 3:4", "2022-01-02 13:24:59.999", dtNow) &&
@@ -94,7 +94,6 @@ module.exports = {
 			cmp("1 3:4", "2022-01-02 13:24:59.999",
 				{ now: dtNow, timezoneOffset: -330 }) &&	//UTC+5.5
 
-			// hh:(mm(:ss(.sss)?)?)?, as now + ( hh:(mm|00):(ss|00).(sss|000) ), then set mm/ss/sss to 59/59/999 if they are omitted.
 			cmp("3:4:5.6", "2022-01-01 13:24:35.046", dtNow) &&
 			cmp("3:4:5", "2022-01-01 13:24:35.999", dtNow) &&
 			cmp("3:4", "2022-01-01 13:24:59.999", dtNow) &&
@@ -131,8 +130,7 @@ module.exports = {
 			cmp(" 1D   4m ", "2022-01-02 10:24:30.040", dtNow) &&	//partial
 			cmp(" 3H    5s    ", "2022-01-01 13:20:35.040", dtNow) &&
 			cmp(" 3H    .6s    ", "2022-01-01 13:20:30.046", dtNow) &&
-			/*
-			*/
+			cmp(" 3H.6s    ", "2022-01-01 13:20:30.046", dtNow) &&
 
 			true
 		));

@@ -1,6 +1,6 @@
 {
   "name": "parse-expire-datetime",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "parse string for expire datetime",
   "main": "parse-expire-datetime.js",
   "scripts": {
