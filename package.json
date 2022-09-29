@@ -9,7 +9,8 @@
   "keywords": [
     "parse",
     "expire",
-    "datetime"
+    "datetime",
+    "timezone"
   ],
   "author": "fwg",
   "license": "ISC",
