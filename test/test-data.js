@@ -66,12 +66,33 @@ module.exports = {
 			cmp("2000-2", "2000-02-29 23:59:59.999") &&
 			cmp("2001-2", "2001-02-28 23:59:59.999") &&
 
+			cmp("2001-2", "2001-02-28 22:59:59.999",
+				(new Date()).getTimezoneOffset() - 60) &&	//timezoneOffset
+
+			parseExpireDatetime("2001-2", 0).getTime() ===		//UTC+0
+			Date.UTC(2001, 1, 28, 23, 59, 59, 999) &&
+			parseExpireDatetime("2001-2", -480).getTime() ===		//UTC+0
+			parseExpireDatetime("2001-2-28 15:59:59.999", 0).getTime() &&	//UTC+8
+
 			// DDD( hh(:mm(:ss(.sss)?)?)?)?, as now + ( DDD (hh|00):(mm|00):(ss|00).(sss|000) ), then set hh/mm/ss/sss to 23/59/59/999 if they are omitted.
 			cmp("1 3:4:5.6", "2022-01-02 13:24:35.046", { now: dtNow }) &&
 			cmp("1 3:4:5", "2022-01-02 13:24:35.999", dtNow) &&
 			cmp("1 3:4", "2022-01-02 13:24:59.999", dtNow) &&
 			cmp("1 3", "2022-01-02 13:59:59.999", dtNow) &&
 			cmp("1", "2022-01-02 23:59:59.999", dtNow) &&
+
+			cmp("1 3:4", "2022-01-02 13:24:59.999",
+				{ now: dtNow, timezoneOffset: (new Date()).getTimezoneOffset() - 60 }) &&
+			cmp("1 3", "2022-01-02 13:59:59.999",
+				{ now: dtNow, timezoneOffset: 0 }) &&	//UTC+0
+			cmp("1 3", "2022-01-02 13:59:59.999",
+				{ now: dtNow, timezoneOffset: -480 }) &&	//UTC+8
+			cmp("1 3", "2022-01-02 13:59:59.999",
+				{ now: dtNow, timezoneOffset: -300 }) &&	//UTC+5
+			cmp("1 3", "2022-01-02 13:29:59.999",	//59-30=29
+				{ now: dtNow, timezoneOffset: -330 }) &&	//UTC+5.5
+			cmp("1 3:4", "2022-01-02 13:24:59.999",
+				{ now: dtNow, timezoneOffset: -330 }) &&	//UTC+5.5
 
 			// hh:(mm(:ss(.sss)?)?)?, as now + ( hh:(mm|00):(ss|00).(sss|000) ), then set mm/ss/sss to 59/59/999 if they are omitted.
 			cmp("3:4:5.6", "2022-01-01 13:24:35.046", dtNow) &&
@@ -80,6 +101,17 @@ module.exports = {
 			cmp("3:", "2022-01-01 13:59:59.999", dtNow) &&
 
 			cmp("3:124", "2022-01-01 15:24:59.999", dtNow) &&	//value out of range
+
+			cmp("3:4", "2022-01-01 13:24:59.999",
+				{ now: dtNow, timezoneOffset: 0 }) &&	//UTC+0
+			cmp("3:", "2022-01-01 13:59:59.999",
+				{ now: dtNow, timezoneOffset: 0 }) &&	//UTC+0
+			cmp("3:", "2022-01-01 13:59:59.999",
+				{ now: dtNow, timezoneOffset: -480 }) &&	//UTC+8
+			cmp("3:", "2022-01-01 13:29:59.999",	//59-30=29
+				{ now: dtNow, timezoneOffset: -330 }) &&	//UTC+5.5
+			cmp("3:4", "2022-01-01 13:24:59.999",
+				{ now: dtNow, timezoneOffset: -330 }) &&	//UTC+5.5
 
 			// ddD? hhH? mmM? ss.sssS?, as now + ( dd (hh|00):(mm|00):(ss|00).(sss|000) ).
 			cmp("1d3h4m5.6s", "2022-01-02 13:24:35.046", dtNow) &&
